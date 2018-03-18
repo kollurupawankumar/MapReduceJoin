@@ -1,10 +1,10 @@
-CSV_FILE = LOAD 'cssd1.csv' USING PigStorage (',') AS (ID, UA)
-TSV_FILE = LOAD 'cssd2.tsv' USING PigStorage ('\t') AS (ID, COUNTRY, F1, F2, F3)
-CSV_TSV_JOIN = JOIN CSV_FILE by ID, TSV_FILE by ID
+csv_file = LOAD 'cssd1.csv' USING PigStorage (',') AS (id, ua)
+tsv_file = LOAD 'cssd2.tsv' USING PigStorage ('\t') AS (id, country, f1, f2, f3)
+csv_tsv_join = JOIN csv_file by id, tsv_file by id
 
-INT_OUTPUT = FOREACH CSV_TSV_JOIN GENERATE CSV_FILE::ID, TSV_FILE::COUNTRY, CSV_FILE::UA, TSV_FILE::F1, TSV_FILE::F2, TSV_FILE::F3
+int_output = FOREACH csv_tsv_join GENERATE csv_file::ID, tsv_file::COUNTRY, csv_file::UA, tsv_file::F1, tsv_file::F2, tsv_file::F3
 
-EU_FILE = LOAD 'EuCountries.txt' USING PigStorage (',') AS (CODE, COUNTRY)
-LEFT_JOIN_EU = JOIN INT_OUTPUT by COUNTRY LEFT OUTER, EU_FILE by CODE
-RESULT = FILTER LEFT_JOIN_EU BY EU_FILE::CODE is null
-STORE RESULT INTO ‘myoutput.txt’ using PigStorage(',');
+eu_file = LOAD 'EuCountries.txt' USING PigStorage (',') AS (code, country)
+left_join_eu = JOIN int_output by country LEFT OUTER, eu_file by code
+result = FILTER left_join_eu BY eu_file::code is null
+STORE result INTO ‘myoutput.txt’ using PigStorage(',');
