@@ -7,7 +7,7 @@ tsv_file = LOAD 'cssd2.tsv' USING PigStorage ('\t') AS (id, country, f1, f2, f3)
 -- joining the file csv and tsv files
 csv_tsv_join = JOIN csv_file by id, tsv_file by id
 
-int_output = FOREACH csv_tsv_join GENERATE csv_file::ID, tsv_file::COUNTRY, csv_file::UA, tsv_file::F1, tsv_file::F2, tsv_file::F3
+int_output = FOREACH csv_tsv_join GENERATE csv_file::id, tsv_file::country, csv_file::ua, tsv_file::f1, tsv_file::f2, tsv_file::f3
 
 -- Loading the EU contries list and perform a let outer join
 eu_file = LOAD 'EuCountries.txt' USING PigStorage (',') AS (code, country)
