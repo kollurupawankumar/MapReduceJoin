@@ -38,7 +38,7 @@ public class JoinAndFilterDriverTest {
 		Text t = new Text("1,US,Mozilla/5.0 (playstation 444),223, ,");
 		List<Text> values = new ArrayList<Text>();
 		values.add(t);
-		mapReduceDriver.withOutput(NullWritable.get(), new Text("1,US,Mozilla/5.0 (playstation 444),223, , ") );
+		mapReduceDriver.withOutput(NullWritable.get(), new Text("1,US,\"Mozilla/5.0 (playstation 444)\",223, , ") );
 		mapReduceDriver.runTest();
 	}
 }

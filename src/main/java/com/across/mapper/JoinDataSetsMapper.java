@@ -90,10 +90,22 @@ public class JoinDataSetsMapper extends Mapper<LongWritable, Text, Text, Text> {
 	@Override
 	protected void map(LongWritable key, Text value, Mapper<LongWritable, Text, Text, Text>.Context context)
 			throws IOException, InterruptedException {
-		
+		String[] countryDataSet = new String[5];
 		if (value.toString().length() > 0){
-			String countryDataSet[] = value.toString().split("\\t");
-			uaDetails = idUaCache.get(countryDataSet[0]);
+			String countryDataSet1[] = value.toString().split("\\t");
+			if (countryDataSet1.length != 5){
+				for (int i=0;i<countryDataSet1.length; i++){
+					countryDataSet[i]=countryDataSet1[i];
+				}
+				for (int i=countryDataSet1.length-1; i > 5 ; i++){
+					countryDataSet[i]="\\N";
+				}
+			}else{
+				for (int i=0;i<5; i++){
+					countryDataSet[i]=countryDataSet1[i];
+				}
+			}
+			uaDetails = idUaCache.get("\""+countryDataSet[0].trim()+"\"");
 			output =  new Text(countryDataSet[0]+","+countryDataSet[1]+","
 								+ uaDetails + ","+countryDataSet[2]+","+countryDataSet[3]+","
 								+ countryDataSet[4]);

@@ -41,7 +41,7 @@ public class JoinDataSetsMapperTest {
 	        "1\tUS\t223\t \t "));
 	    
 	    //output should be (("US" ,"1,US,Mozilla/5.0 (playstation 444),223, ,")  )
-	    mapDriver.withOutput(new Text("US"), new Text("1,US,Mozilla/5.0 (playstation 444),223, , "));
+	    mapDriver.withOutput(new Text("US"), new Text("1,US,\"Mozilla/5.0 (playstation 444)\",223, , "));
 	    mapDriver.runTest();
 	  }
 

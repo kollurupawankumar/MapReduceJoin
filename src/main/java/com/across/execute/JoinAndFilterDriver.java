@@ -44,19 +44,19 @@ public class JoinAndFilterDriver extends Configured implements Tool {
 
 	@Override
 	public int run(String[] args) throws Exception {
-		if (args.length != 3) {
+		if (args.length != 4) {
 			System.out.printf(
-					"Three parameters are required- <input dir>  <output dir>  <distributed cache file path>\n");
+					"Four parameters are required- <input dir>  <output dir>  <distributed cache file path> <filterpath> \n");
 			return -1;
 		}
 
 		Job job = new Job(getConf());
 		Configuration conf = job.getConfiguration();
 		job.setJobName("Map-side join with text lookup file in DCache");
-		DistributedCache.addCacheFile(new URI(args[2]), conf);
-
-		DistributedCache.addLocalFiles(conf,
-				"/home/pawank/workspace/spring-boot/33across_solution/src/main/resources/EUCountries.txt");
+		//DistributedCache.addCacheFile(new URI(args[2]), conf);
+		//DistributedCache.addCacheFile(new URI(args[3]), conf);
+		DistributedCache.addLocalFiles(conf,args[3]);
+		DistributedCache.addLocalFiles(conf,args[2]);
 
 		job.setJarByClass(JoinAndFilterDriver.class);
 		FileInputFormat.setInputPaths(job, new Path(args[0]));
