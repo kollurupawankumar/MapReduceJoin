@@ -61,7 +61,18 @@ public class JoinDataSetsMapper extends Mapper<LongWritable, Text, Text, Text> {
 			// Read each line, split and load to HashMap
 			while ((strLineRead = br.readLine()) != null) {
 				String idUaArray[] = strLineRead.split(",");
-				idUaCache.put(idUaArray[0].trim(), idUaArray[1].trim());
+				if (idUaArray.length == 2){
+					idUaCache.put(idUaArray[0].trim(), idUaArray[1].trim());
+				}else{
+					//if there is a comma(,) in the content , then replace it with "comma"  
+					String value="";
+					for (int i=1; i<idUaArray.length-1;i++){
+						value = value + idUaArray[i] + " comma ";
+					}
+					value = value + idUaArray[idUaArray.length-1];
+					idUaCache.put(idUaArray[0].trim(), value.trim());
+				}
+				
 			}
 		} catch (Exception e) {
 			throw new IOException("Error reading the ccds1.csv");

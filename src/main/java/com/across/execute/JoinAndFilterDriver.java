@@ -6,6 +6,8 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.filecache.DistributedCache;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.NullWritable;
+import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
@@ -61,7 +63,11 @@ public class JoinAndFilterDriver extends Configured implements Tool {
 		FileOutputFormat.setOutputPath(job, new Path(args[1]));
 		job.setMapperClass(JoinDataSetsMapper.class);
 		job.setReducerClass(EUFilterOutReducer.class);
-
+        job.setMapOutputKeyClass(Text.class);
+        job.setMapOutputValueClass(Text.class);
+        
+        job.setOutputKeyClass(NullWritable.class);
+        job.setOutputValueClass(Text.class);
 		boolean success = job.waitForCompletion(true);
 		return success ? 0 : 1;
 	}
